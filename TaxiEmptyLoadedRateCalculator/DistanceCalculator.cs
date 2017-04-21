@@ -37,9 +37,9 @@ namespace TaxiEmptyLoadedRateCalculator
 
         private static double Format(double distance)
         {
-            if (Config.DistanceUnit == "km")
+            if (Config.GetDistanceUnit() == "km")
                 distance /= 1000;
-            return Math.Round(distance, Config.Decimal);
+            return Math.Round(distance, Config.GetDecimal());
         }
     }
 }

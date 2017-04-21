@@ -11,9 +11,10 @@ namespace TaxiEmptyLoadedRateCalculator
 {
     class Reader
     {
-        public static TaxiRunningSnapshot[] read(String file)
+        public static TaxiRunningSnapshot[] Read(String file)
         {
             Application excel = new Application();//lauch excel application
+            TaxiRunningSnapshot[] result=null;
             if (excel == null)
             {
                 Console.Write("Can't access excel!");
@@ -21,49 +22,49 @@ namespace TaxiEmptyLoadedRateCalculator
             else
             {
                 excel.Visible = false; excel.UserControl = true;
-
                 // 以只读的形式打开EXCEL文件
                 Workbook wb = excel.Application.Workbooks.Open(file, Missing.Value, true, Missing.Value, Missing.Value, Missing.Value,
                  Missing.Value, Missing.Value, Missing.Value, true, Missing.Value, Missing.Value, Missing.Value, Missing.Value, Missing.Value);
                 //取得第一个工作薄
                 Worksheet ws = (Worksheet)wb.Worksheets.get_Item(1);
-
-
                 //取得总记录行数   (包括标题列)
-                int rowsint = ws.UsedRange.Cells.Rows.Count; //得到行数
-                                                             //int columnsint = mySheet.UsedRange.Cells.Columns.Count;//得到列数
-
-
+                int rows = ws.UsedRange.Cells.Rows.Count; //得到行数
+                //int columnsint = mySheet.UsedRange.Cells.Columns.Count;//得到列数
+                result = new TaxiRunningSnapshot[rows - 1];
                 //取得数据范围区域 (不包括标题列) 
-                Range rng1 = ws.Cells.get_Range("B2", "B" + rowsint);   //item
-
-
-                Range rng2 = ws.Cells.get_Range("C2", "C" + rowsint); //Customer
-                object[,] arryItem = (object[,])rng1.Value2;   //get range's value
-                object[,] arryCus = (object[,])rng2.Value2;
-                //将新值赋给一个数组
-                string[,] arry = new string[10, 2];
-                for (int i = 1; i <= 10; i++)
+                Range taxiIdRange = ws.Cells.get_Range("A2", "A" + rows);
+                Range timestampRange = ws.Cells.get_Range("B2", "B" + rows);   
+                Range lngsRange = ws.Cells.get_Range("C2", "C" + rows);
+                Range latRange = ws.Cells.get_Range("D2", "D" + rows);
+                Range speedRange = ws.Cells.get_Range("E2", "E" + rows);
+                Range taxiStateRange = ws.Cells.get_Range("G2", "G" + rows);
+                Console.Write("正在读取文件 "+file+": ");
+                int cursorLeft = Console.CursorLeft, cursorTop = Console.CursorTop;
+                for (int i = 1; i <= rows-1; i++)
                 {
-                    DateTime d = DateTime.FromOADate((double)arryItem[i, 1]);
-                    Console.WriteLine(arryItem[i, 1].GetType());
-                    //Item_Code列
-                    arry[i - 1, 0] = arryItem[i, 1].ToString();
-                    //Customer_Name列
-                    arry[i - 1, 1] = arryCus[i, 1].ToString();
-                }
-                for (int i = 0; i < arry.GetLength(0); i++)
-                {
-                    for (int j = 0; j < arry.GetLength(1); j++)
+                    if (i % 100 == 0)
                     {
-                        Console.WriteLine("array[{0},{1}]={2}", i, j, arry[i, j]);
+                        Console.SetCursorPosition(cursorLeft, cursorTop);
+                        Console.WriteLine("{0}%", (int)(i/((double)rows)*100));
+
                     }
+                    TaxiRunningSnapshot snapshot = new TaxiRunningSnapshot();
+                    snapshot.TaxiId= (string)((object[,])taxiIdRange.Value2)[i, 1];
+                    snapshot.Timestamp = DateTime.FromOADate((double)((object[,])timestampRange.Value2)[i, 1]);
+                    snapshot.Location = new Location((double)((object[,])lngsRange.Value2)[i, 1],(double)((object[,])latRange.Value2)[i, 1]);
+                    snapshot.Speed = (double)((object[,])speedRange.Value2)[i, 1];
+                    snapshot.TaxiState= (string)((object[,])taxiStateRange.Value2)[i, 1]=="空车"?TaxiState.Empty:TaxiState.Loaded;
+                    result[i-1] = snapshot;                
+                }
+                for (int i = 0; i < 2; i++)
+                {
+                    Console.WriteLine(result[i]);
                 }
             }
             excel.Quit();
             excel = null;
             GC.Collect();
-
+            return result;
     } 
     }
 }

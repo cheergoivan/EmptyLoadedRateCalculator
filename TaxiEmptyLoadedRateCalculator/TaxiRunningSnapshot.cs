@@ -19,6 +19,12 @@ namespace TaxiEmptyLoadedRateCalculator
         public Location Location { get => location; set => location = value; }
         public double Speed { get => speed; set => speed = value; }
         public TaxiState TaxiState { get => taxiState; set => taxiState = value; }
+
+        public override string ToString()
+        {
+            return "TaxiRunningSnapshot [taxiId=" + taxiId+", timestamp="+timestamp.ToString()+", location="+location.ToString()
+                +", speed="+speed+", taxiState="+taxiState+"]";
+        }
     }
 
     enum TaxiState

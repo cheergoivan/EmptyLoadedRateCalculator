@@ -55,6 +55,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reader.cs" />
     <Compile Include="TaxiRunningSnapshot.cs" />
+    <Compile Include="TaxiRunningSnapshotHandler.cs" />
+    <Compile Include="TaxiRunningStatistics.cs" />
+    <Compile Include="Writer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

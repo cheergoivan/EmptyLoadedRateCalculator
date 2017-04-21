@@ -21,6 +21,11 @@ namespace TaxiEmptyLoadedRateCalculator
 
         public double Latitude { get => latitude; }
 
-        
+        public override string ToString()
+        {
+            return "Location [longititude=" + longititude + ", latitude=" + latitude + "]";
+        }
+
+
     }
 }
