@@ -8,9 +8,19 @@ namespace TaxiEmptyLoadedRateCalculator
 {
     class Location
     {
-        private long lng;
-        private long lat;
+        private double longititude;
+        private double latitude;
 
+        public Location(double longitude, double latitude)
+        {
+            this.longititude = longitude;
+            this.latitude = latitude;
+        }
 
+        public double Longitude { get => longititude;}
+
+        public double Latitude { get => latitude; }
+
+        
     }
 }
