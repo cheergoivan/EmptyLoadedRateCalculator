@@ -11,7 +11,7 @@ namespace TaxiEmptyLoadedRateCalculator
 {
     class Writer
     {
-        public static void write(string directory,TaxiRunningStatistics[] statisticsInOneDay)
+        public static void newExcelWithStatisticsHourly(string directory,TaxiRunningStatistics[] statisticsInOneDay)
         {
             if (statisticsInOneDay.Length == 0)
                 return;
@@ -29,10 +29,10 @@ namespace TaxiEmptyLoadedRateCalculator
             {
                 Workbook book = xls.Workbooks.Add(Missing.Value);
                 Worksheet sheet = book.Worksheets.get_Item(1);
-                sheet.Name = Config.GetSheet1Name();
-                for(int i = 1; i <= column.Length; i++)
+                sheet.Name = Config.GetSheetName(1,1);
+                for(int i = 1; i <= 9; i++)
                 {
-                    sheet.Cells[1, i] = column[i];
+                    sheet.Cells[1, i] = Config.GetSheetColumnName(1,1,i);
                 }
                 for(int i = 2,j=1; i < 2 + statisticsInOneDay.Length; i++)
                 {
@@ -43,7 +43,12 @@ namespace TaxiEmptyLoadedRateCalculator
                     sheet.Cells[i, j++] = statisticsInOneDay[i - 2].LoadedRunningDistance;
                     sheet.Cells[i, j++] = statisticsInOneDay[i - 2].EmptyRunningDuration;
                     sheet.Cells[i, j++] = statisticsInOneDay[i - 2].LoadedRunningDuration;
-
+                    double emptyLoadedRateInTime = Math.Round(statisticsInOneDay[i - 2].EmptyRunningDuration /
+                        ((double)(statisticsInOneDay[i - 2].EmptyRunningDuration + statisticsInOneDay[i - 2].LoadedRunningDuration))*100, Config.GetEmptyLoadedRateDecimal());
+                    sheet.Cells[i, j++] = emptyLoadedRateInTime + "%";
+                    double emptyLoadedRateInDistance = Math.Round(statisticsInOneDay[i - 2].EmptyRunningDistance /
+                        ((double)(statisticsInOneDay[i - 2].EmptyRunningDistance + statisticsInOneDay[i - 2].LoadedRunningDistance)) * 100, Config.GetEmptyLoadedRateDecimal());
+                    sheet.Cells[i, j++] = emptyLoadedRateInDistance + "%";
                 }
                 book.SaveAs(file, Missing.Value, Missing.Value, Missing.Value, Missing.Value, Missing.Value, XlSaveAsAccessMode.xlNoChange, Missing.Value, Missing.Value, Missing.Value, Missing.Value, Missing.Value);
                 book.Close(false, Missing.Value, Missing.Value);//关闭打开的表

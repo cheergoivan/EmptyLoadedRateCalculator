@@ -9,29 +9,24 @@ namespace TaxiEmptyLoadedRateCalculator
 {
     class Config
     {
-        public static string GetDistanceUnit()
+        public static int GetDistanceDecimal()
         {
-            return GetAppConfig("DistanceUnit");
+            return int.Parse(GetAppConfig("DistanceDecimal"));
         }
 
-        public static int GetDecimal()
+        public static int GetEmptyLoadedRateDecimal()
         {
-            return int.Parse(GetAppConfig("Decimal"));
+            return int.Parse(GetAppConfig("EmptyLoadedRateDecimal"));
         }
 
-        public static string GetSheet1Name()
+        public static string GetSheetName(int excelIndex,int sheetIndex)
         {
-            return GetAppConfig("sheet1Name");
+            return GetAppConfig("excel" + excelIndex + "_sheet" + sheetIndex + "_name");
         }
 
-        public static string GetSheetColumnName(int sheetIndex,int columnIndex)
+        public static string GetSheetColumnName(int excelIndex,int sheetIndex,int columnIndex)
         {
-            return GetAppConfig("sheet" + sheetIndex + "_column" + columnIndex);
-        }
-
-        public static int ColumnNum(int sheetIndex)
-        {
-            return 0;
+            return GetAppConfig("excel"+excelIndex+"_sheet" + sheetIndex + "_column" + columnIndex);
         }
 
         public static String GetAppConfig(string strKey)
