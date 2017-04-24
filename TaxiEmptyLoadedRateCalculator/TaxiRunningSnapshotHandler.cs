@@ -24,7 +24,7 @@ namespace TaxiEmptyLoadedRateCalculator
                     statisticInOneHour.TaxiId = snapshots[i].TaxiId;
                     statisticInOneHour.StartTime = floorAndCeiling[0];
                     statisticInOneHour.EndTime = floorAndCeiling[1];
-                    Console.WriteLine("开始计算:" + statisticInOneHour.StartTime + "到" + statisticInOneHour.EndTime + "的空驶率...");
+                    Console.WriteLine("开始统计:" + statisticInOneHour.StartTime + "到" + statisticInOneHour.EndTime + "的空驶率...");
                     if (hasLegacy)
                     {
                         inheritLegacy(statisticInOneHour, lastHourLegacy);
@@ -59,7 +59,7 @@ namespace TaxiEmptyLoadedRateCalculator
                         currentSnapshot = snapshots[i];
                         if (currentSnapshot.Timestamp.Subtract(lastSnapshot.Timestamp).TotalSeconds<=Config.GetPredictableRange())
                         {
-                            Console.WriteLine("增加预估时间和距离...");
+                            Console.WriteLine("增加预估行驶时间和行驶距离...");
                             lastHourLegacy = new TaxiRunningStatistics();
                             double extraInDuration = statisticInOneHour.EndTime.Subtract(lastSnapshot.Timestamp).TotalSeconds;
                             double duration = currentSnapshot.Timestamp.Subtract(lastSnapshot.Timestamp).TotalSeconds;
@@ -85,7 +85,7 @@ namespace TaxiEmptyLoadedRateCalculator
                             hasLegacy = true;
                         }
                     }
-                    Console.WriteLine(statisticInOneHour.StartTime+"到"+statisticInOneHour.EndTime+"的数据计算完毕:");
+                    Console.WriteLine(statisticInOneHour.StartTime+"到"+statisticInOneHour.EndTime+"的数据统计完毕:");
                     Console.WriteLine(statisticInOneHour);
                     Console.WriteLine();
                     statisticInOneDay.Add(statisticInOneHour);
@@ -116,10 +116,10 @@ namespace TaxiEmptyLoadedRateCalculator
                 heritor.EmptyRunningDuration += legacy.EmptyRunningDuration;
                 heritor.LoadedRunningDistance += legacy.LoadedRunningDistance;
                 heritor.LoadedRunningDuration += legacy.LoadedRunningDuration;
-                Console.WriteLine("----继承空驶时间：" + legacy.EmptyRunningDuration + "s");
-                Console.WriteLine("----继承空驶距离：" + legacy.EmptyRunningDistance + "m");
-                Console.WriteLine("----继承重车时间：" + legacy.LoadedRunningDuration + "s");
-                Console.WriteLine("----继承重车距离：" + legacy.LoadedRunningDistance + "m");
+                Console.WriteLine("----继承空车行驶时间：" + legacy.EmptyRunningDuration + "s");
+                Console.WriteLine("----继承空车行驶距离：" + legacy.EmptyRunningDistance + "m");
+                Console.WriteLine("----继承重车行驶时间：" + legacy.LoadedRunningDuration + "s");
+                Console.WriteLine("----继承重车行驶距离：" + legacy.LoadedRunningDistance + "m");
                 Console.WriteLine();
             }
         }
@@ -127,8 +127,8 @@ namespace TaxiEmptyLoadedRateCalculator
         private static void printMessage(TaxiState state,double duration,double distance)
         {
             String stateMsg = state == TaxiState.Empty ? "空驶" : "重车";
-            Console.WriteLine("----增加"+ stateMsg + "时间：" + duration + "s");
-            Console.WriteLine("----增加"+ stateMsg + "距离：" + distance + "m");
+            Console.WriteLine("----增加"+ stateMsg + "行驶时间：" + duration + "s");
+            Console.WriteLine("----增加"+ stateMsg + "行驶距离：" + distance + "m");
             Console.WriteLine();
         }
         

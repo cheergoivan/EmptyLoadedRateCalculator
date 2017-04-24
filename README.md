@@ -5,3 +5,4 @@ A tool calculates empty-loaded rate according to several taxi running snapshots
 * 为vs添加github插件来导入本项目，执行：工具->拓展和更新，搜索github，然后安装。参考链接：http://blog.csdn.net/u012391923/article/details/51879404?ref=myrecommend
 * 如果读取Excel文件报错，执行：工具->NuGet包管理器->程序包管理控制台，输入Install-Package Microsoft.Office.Interop.Excel
 * 如果Config.cs报错，在项目上右键->添加->引用，搜索System.Configuration，然后添加。
+* 程序要求用户输入一个文件夹路径，该文件夹中必须是一些包含原始行驶数据的.xlsx文件。
