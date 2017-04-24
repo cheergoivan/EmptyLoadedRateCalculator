@@ -59,7 +59,7 @@ namespace TaxiEmptyLoadedRateCalculator
                         currentSnapshot = snapshots[i];
                         if (currentSnapshot.Timestamp.Subtract(lastSnapshot.Timestamp).TotalSeconds<=Config.GetPredictableRange())
                         {
-                            Console.WriteLine("增加预估行驶时间和行驶距离...");
+                            Console.WriteLine("正在预估行驶时间和行驶距离...");
                             lastHourLegacy = new TaxiRunningStatistics();
                             double extraInDuration = statisticInOneHour.EndTime.Subtract(lastSnapshot.Timestamp).TotalSeconds;
                             double duration = currentSnapshot.Timestamp.Subtract(lastSnapshot.Timestamp).TotalSeconds;
@@ -116,10 +116,10 @@ namespace TaxiEmptyLoadedRateCalculator
                 heritor.EmptyRunningDuration += legacy.EmptyRunningDuration;
                 heritor.LoadedRunningDistance += legacy.LoadedRunningDistance;
                 heritor.LoadedRunningDuration += legacy.LoadedRunningDuration;
-                Console.WriteLine("----继承空车行驶时间：" + legacy.EmptyRunningDuration + "s");
-                Console.WriteLine("----继承空车行驶距离：" + legacy.EmptyRunningDistance + "m");
-                Console.WriteLine("----继承重车行驶时间：" + legacy.LoadedRunningDuration + "s");
-                Console.WriteLine("----继承重车行驶距离：" + legacy.LoadedRunningDistance + "m");
+                Console.WriteLine("----预估空车行驶时间：" + legacy.EmptyRunningDuration + "s");
+                Console.WriteLine("----预估空车行驶距离：" + legacy.EmptyRunningDistance + "m");
+                Console.WriteLine("----预估重车行驶时间：" + legacy.LoadedRunningDuration + "s");
+                Console.WriteLine("----预估重车行驶距离：" + legacy.LoadedRunningDistance + "m");
                 Console.WriteLine();
             }
         }
