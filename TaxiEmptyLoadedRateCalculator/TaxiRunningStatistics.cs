@@ -26,7 +26,7 @@ namespace TaxiEmptyLoadedRateCalculator
 
         public override string ToString()
         {
-            return "TaxiRunningStatisticsItem [taxiId=" + taxiId + ", startTime=" + startTime.ToString() + ", endTime=" + endTime.ToString()
+            return "TaxiRunningStatistics [taxiId=" + taxiId + ", startTime=" + startTime.ToString() + ", endTime=" + endTime.ToString()
                 + ", loadedRunningDistance=" + loadedRunningDistance + ", emptyRunningDistance=" + emptyRunningDistance + ", loadedRunningDuration=" +
                 loadedRunningDuration + ", emptyRunningDuration=" + emptyRunningDuration + "]";
         }

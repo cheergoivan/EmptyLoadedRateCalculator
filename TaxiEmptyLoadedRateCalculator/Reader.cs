@@ -9,9 +9,15 @@ using Microsoft.Office.Interop.Excel;
 
 namespace TaxiEmptyLoadedRateCalculator
 {
-    class Reader
+    interface Reader
     {
-        public static TaxiRunningSnapshot[] Read(String file)
+        TaxiRunningSnapshot[] Read(string file);
+    }
+
+
+    class ReaderUsingInteropExcel:Reader
+    {
+        public TaxiRunningSnapshot[] Read(String file)
         {
             Application excel = new Application();//lauch excel application
             TaxiRunningSnapshot[] result=null;
@@ -45,7 +51,7 @@ namespace TaxiEmptyLoadedRateCalculator
                     if (i % 100 == 0)
                     {
                         Console.SetCursorPosition(cursorLeft, cursorTop);
-                        Console.WriteLine("{0}%", (int)(i/((double)rows)*100));
+                        Console.Write("{0}%", (int)(i/((double)rows)*100));
 
                     }
                     TaxiRunningSnapshot snapshot = new TaxiRunningSnapshot();
@@ -55,10 +61,6 @@ namespace TaxiEmptyLoadedRateCalculator
                     snapshot.Speed = (double)((object[,])speedRange.Value2)[i, 1];
                     snapshot.TaxiState= (string)((object[,])taxiStateRange.Value2)[i, 1]=="空车"?TaxiState.Empty:TaxiState.Loaded;
                     result[i-1] = snapshot;                
-                }
-                for (int i = 0; i < 2; i++)
-                {
-                    Console.WriteLine(result[i]);
                 }
             }
             excel.Quit();

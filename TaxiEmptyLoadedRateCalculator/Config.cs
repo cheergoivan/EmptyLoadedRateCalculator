@@ -9,6 +9,11 @@ namespace TaxiEmptyLoadedRateCalculator
 {
     class Config
     {
+        public static int GetPredictableRange()
+        {
+            return int.Parse(GetAppConfig("PredictableRange"));
+        }
+
         public static int GetDistanceDecimal()
         {
             return int.Parse(GetAppConfig("DistanceDecimal"));

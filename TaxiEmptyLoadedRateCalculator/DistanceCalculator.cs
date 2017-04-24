@@ -15,7 +15,7 @@ namespace TaxiEmptyLoadedRateCalculator
             return GetDistance(l1.Latitude, l1.Longitude, l2.Latitude, l2.Longitude);
         }
 
-        //计算两点位置的距离，返回两点的距离 
+        //计算两点位置的距离，返回两点的距离，单位为m
         private static double GetDistance(double lat1, double lng1, double lat2, double lng2)
         {
             double radLat1 = Rad(lat1);
@@ -26,7 +26,7 @@ namespace TaxiEmptyLoadedRateCalculator
             double b = radLng1 - radLng2;
             double result = 2 * Math.Asin(Math.Sqrt(Math.Pow(Math.Sin(a / 2), 2) +
                 Math.Cos(radLat1) * Math.Cos(radLat2) * Math.Pow(Math.Sin(b / 2), 2))) * EARTH_RADIUS;
-            return Format(result);
+            return result;
         }
 
         //经纬度转化成弧度
@@ -35,7 +35,7 @@ namespace TaxiEmptyLoadedRateCalculator
             return (double)d * Math.PI / 180d;
         }
 
-        private static double Format(double distance)
+        public static double FormatDistanceAccordingToCofig(double distance)
         {
             if (Config.GetAppConfig("DistanceUnit") == "km")
                 distance /= 1000;
